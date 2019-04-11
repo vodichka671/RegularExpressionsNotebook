@@ -1,25 +1,33 @@
 package com.company;
 
-import com.company.controller.InputController;
+
+import com.company.controller.Controller;
+import com.company.model.Model;
+import com.company.view.PropertiesConstants;
+import com.company.view.View;
+
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-      //  Locale ruLocal = new Locale("ru","RU");
-      //  Locale enLocal = new Locale("en","US");
+        Scanner sc = new Scanner(System.in);
+        Locale ruLocal = new Locale("ru","RU");
+        Locale enLocal = new Locale("en","US");
 
-      //  ResourceBundle resourceBundle = ResourceBundle.getBundle("com.company.messages",enLocal);
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("com.company.messages",ruLocal);
 
-      //  System.out.println(resourceBundle.getString("hello"));
+       // System.out.println(resourceBundle.getString(PropertiesConstants.GREETINGS));
 
         String regex = "a*b";
-        InputController cont = new InputController();
-        String res= cont.inputValidation(regex);
-        System.out.println(res);
+        Controller cont = new Controller(new Model(),new View());
+        //String res= cont.inputValidation(regex);
+        System.out.println(cont.chooseLocale(sc));
+
 
     }
 }
