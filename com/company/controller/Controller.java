@@ -1,6 +1,7 @@
 package com.company.controller;
 
 import com.company.model.Model;
+import com.company.view.PropertiesConstants;
 import com.company.view.View;
 
 import javax.management.modelmbean.ModelMBean;
@@ -21,39 +22,77 @@ public class Controller {
         this.view = view;
     }
 
-    public String inputValidation(String regex, Locale locale){
+    public String inputValidation(String regex, Locale locale, String msg){
         //String result;
+        bundle = ResourceBundle.getBundle("com.company.messages",locale);
+        view.showMessage(bundle.getString(msg));
 
+        //Pattern pattern = Pattern.compile(regex);
 
-        Pattern pattern = Pattern.compile(regex);
-        String input = "";
-        while (!(sc.hasNext()&&((input = sc.nextLine()).matches(regex)))){
+        String input;
+        while (!(sc.hasNext()&&(input = sc.nextLine()).matches(regex))){
             //input = sc.nextLine();
-            System.out.println("Error");
+            view.showMessage(bundle.getString(PropertiesConstants.ERROR_INPUT));
 
         }
         return input;
 
     }
-    public Locale chooseLocale(Scanner sc){
+
+    public Locale chooseLocale(){
         Locale locale = new Locale("en","US");
         bundle = ResourceBundle.getBundle("com.company.messages",locale);
-        System.out.println(bundle.getLocale());
+      //  System.out.println(bundle.getLocale());
 
-        view.showMessage(bundle.getString("choose.locale"));
-        int index =3;
 
-        while (!(sc.hasNextInt()&&((index==0)||(index==1)))){
-            view.showMessage(bundle.getString("error.input"));
+        boolean flag = false;
+        do{
+            view.showMessage(bundle.getString(PropertiesConstants.CHOOSE_LOCALE));
+            while (!sc.hasNextInt()){
+                view.showMessage(bundle.getString(PropertiesConstants.ERROR_INPUT));
+                sc.next();
+            }
+            int index = sc.nextInt();
+            switch (index){
+                case 0: locale = new Locale("en","US") ;
+                    flag = true;
+                    break;
+                case 1: locale = new Locale("ru","RU");
+                    flag = true;
+                    break;
+                case 2: flag = true;
+                        locale = Locale.getDefault();
+                    break;
+                default:
+                    //flag = true;
+                    view.showMessage(bundle.getString(PropertiesConstants.ERROR_INPUT));
+                    break;
+            }
+        }while (!flag);
 
-        }
-        index = sc.nextInt();
-        switch (index){
-            case 0: locale = new Locale("en","US") ;
-            break;
-            case 1: locale = new Locale("ru","RU");
-            break;
-        }
+      //  index = sc.nextInt();
+
         return locale;
     }
+
+    public void run(){
+        Locale locale = chooseLocale();
+        //System.out.println(locale);
+        //System.out.println(Locale.getDefault());
+        if (locale.equals(Locale.getDefault())){
+            model.setName(inputValidation(RegexPatterns.NAME_RU,locale,PropertiesConstants.NAME));
+            model.setLogin(inputValidation(RegexPatterns.LOGIN,locale,PropertiesConstants.LOGIN));
+            model.setPhone(inputValidation(RegexPatterns.PHONE,locale,PropertiesConstants.PHONE));
+        }
+        else {
+            model.setName(inputValidation(RegexPatterns.NAME_EN,locale,PropertiesConstants.NAME));
+            model.setLogin(inputValidation(RegexPatterns.LOGIN,locale,PropertiesConstants.LOGIN));
+            model.setPhone(inputValidation(RegexPatterns.PHONE,locale,PropertiesConstants.PHONE));
+
+        }
+        view.showMessage(model.toString());
+
+
+    }
+
 }

@@ -5,6 +5,7 @@ public class Model {
     private String login;
     private String phone;
 
+
     public Model() {
         this.name = null;
         this.login = null;
@@ -39,5 +40,9 @@ public class Model {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String toString(){
+        return "Name : " +this.getName()+"\n"+"Login : "+this.getLogin()+"\n"+"Phone : "+this.getPhone();
     }
 }

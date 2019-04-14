@@ -15,18 +15,18 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        Scanner sc = new Scanner(System.in);
-        Locale ruLocal = new Locale("ru","RU");
-        Locale enLocal = new Locale("en","US");
+        //Scanner sc = new Scanner(System.in);
+       // Locale ruLocal = new Locale("ru","RU");
+       // Locale enLocal = new Locale("en","US");
 
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("com.company.messages",ruLocal);
+       // ResourceBundle resourceBundle = ResourceBundle.getBundle("com.company.messages",ruLocal);
 
        // System.out.println(resourceBundle.getString(PropertiesConstants.GREETINGS));
 
-        String regex = "a*b";
+       // String regex = "a*b";
         Controller cont = new Controller(new Model(),new View());
         //String res= cont.inputValidation(regex);
-        System.out.println(cont.chooseLocale(sc));
+        cont.run();
 
 
     }
